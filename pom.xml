@@ -16,6 +16,7 @@
     <properties>
         <java.version>1.8</java.version>
         <mybatis.plus.version>3.5.1</mybatis.plus.version>
+        <geotools.version>20.0</geotools.version>
     </properties>
     <dependencies>
         <dependency>
@@ -40,12 +41,17 @@
             <artifactId>mybatis-plus-generator</artifactId>
             <version>${mybatis.plus.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter-test</artifactId>
+            <version>3.5.4.1</version>
+        </dependency>
 
-<!--        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>-->
+        <!--        <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>runtime</scope>
+                </dependency>-->
 
         <dependency>
             <groupId>mysql</groupId>
@@ -100,6 +106,25 @@
             <artifactId>zookeeper</artifactId>
             <version>3.7.0</version>
         </dependency>
+        <!--指定org.geotools jar包依赖-->
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-api</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+        <!--指定坐标系查询数据库  代码中指定的坐标系会从这里查询，只支持其中有的坐标系-->
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-epsg-hsql</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+
+        <!--spring cloud-->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-spring-context</artifactId>
+            <version>2.1.0-RC</version>
+        </dependency>
 
     </dependencies>
 
@@ -108,6 +133,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>false</fork>
+                </configuration>
             </plugin>
         </plugins>
     </build>

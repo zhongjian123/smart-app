@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
  * <p>
  * 服务实现类
  * </p>
+ *
  * @author zhizj
  * @since 2023-02-15
  */
@@ -33,5 +34,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         int result = userMapper.updateUserName(id, userName, userDO.getName());
         return result > 0;
     }
+
+    @Override
+    public boolean save(UserDO entity) {
+        int i = userMapper.insert(entity);
+        return i > 0;
+    }
+
 
 }

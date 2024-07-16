@@ -4,7 +4,8 @@
     <update id="updateUserName">
         UPDATE t_user
         SET
-            name = #{latestName}
+            name = #{latestName},
+            update_time = now()
         WHERE
             id = #{id}
             and name = #{oldName}

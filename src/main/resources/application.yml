@@ -16,6 +16,13 @@ spring:
     jedis:
       pool:
         max-active: 10
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+server:
+  port: 8088
 logging:
   level:
     root: info

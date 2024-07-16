@@ -1,18 +1,21 @@
 package com.smart.smartapp.POJO.DO;
 
+import com.alibaba.fastjson2.util.DateUtils;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.Setter;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author zhizj
  * @since 2023-02-15
  */
+@Data
 @TableName("t_user")
 public class UserDO implements Serializable {
 
@@ -27,62 +30,19 @@ public class UserDO implements Serializable {
 
     private String email;
 
-    private String createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
-    private String updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
-    public Long getId() {
-        return id;
+    public UserDO() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public UserDO(String name, Integer age, String email) {
         this.name = name;
-    }
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
         this.age = age;
-    }
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
     }
-    public String getCreateTime() {
-        return createTime;
-    }
 
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDO{" +
-            "id=" + id +
-            ", name=" + name +
-            ", age=" + age +
-            ", email=" + email +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-        "}";
-    }
 }

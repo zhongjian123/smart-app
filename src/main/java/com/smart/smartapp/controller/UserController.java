@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class UserController {
 
     @PostMapping
     public String createUser(@RequestBody UserDO userDO) {
+        userDO.setCreateTime(new Date());
         userService.save(userDO);
         return HttpStatus.OK.getReasonPhrase();
     }
@@ -44,5 +46,6 @@ public class UserController {
     public Object updateUser(@PathVariable("id") Long id, @RequestParam("name") String name) {
         return userService.updateUserName(id, name);
     }
+
 
 }

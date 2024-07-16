@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @description:
@@ -60,7 +61,28 @@ public class CommonTests {
         CustomMap<String, Object> customMap = new CustomMap<>();
         customMap.put("ww", "wewew");
         Object ww = customMap.get("ww");
+
         System.out.println(ww);
+    }
+
+    @Test
+    public void testHashMap() {
+        System.out.println("------");
+        Map<Integer, Object> map = new HashMap<>(2);
+        for (int i = 1; i < 10; i++) {
+            map.put(i, "test-" + i);
+            System.out.println(i);
+        }
+        // concurrentHashMap get方法允许多线程同时访问，但是put方法只会使用synchronized锁定单个节点，确保多线程安全；效率更高
+        Map<String, Object> concurrentHashMap = new ConcurrentHashMap<>();
+        concurrentHashMap.put("tt", 123);
+        concurrentHashMap.get("tt");
+        concurrentHashMap.put("tt", 2222222);
+        Map<String,Object> hashtable=new Hashtable();
+        // hashtable get\put使用synchronized作用于整个方法确保多线程并发安全
+        hashtable.get(123);
+        hashtable.put("333",333);
+
     }
 
     @Test
@@ -92,7 +114,7 @@ public class CommonTests {
 
     @Test
     public void testUrl() throws MalformedURLException {
-        String pic="http://192.168.5.176:9090/rtmp/snaps/20231016/2023101615/20231016152255_114828_2d1d3ee905122a54da7f9b18e05dc0a2.jpg";
+        String pic = "http://192.168.5.176:9090/rtmp/snaps/20231016/2023101615/20231016152255_114828_2d1d3ee905122a54da7f9b18e05dc0a2.jpg";
         URL url = new URL(pic);
         String path = url.getPath();
         System.out.println(path);

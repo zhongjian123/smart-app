@@ -78,6 +78,6 @@ public class WsServerEndpoint implements InitializingBean {
             } catch (IOException e) {
                 LOG.error("error:", e);
             }
-        }, 30, 10, TimeUnit.SECONDS);
+        }, 30, 10000, TimeUnit.SECONDS);
     }
 }
