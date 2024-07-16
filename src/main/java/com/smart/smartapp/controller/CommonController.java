@@ -20,7 +20,7 @@ public class CommonController {
     @PostMapping("/alarm/data")
     public String getAlarmData(@RequestBody JSONObject alarmObject) {
         System.out.println("test");
-        return "success";
+        return "success" + Math.random();
     }
 
     @PostMapping("/alarm/video")
