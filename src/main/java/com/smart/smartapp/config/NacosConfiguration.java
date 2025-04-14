@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @date: 2024/7/3
  */
 @Configuration
-@EnableNacosDiscovery(globalProperties = @NacosProperties(serverAddr = "127.0.0.1:8848"))
+@EnableNacosDiscovery(globalProperties = @NacosProperties(serverAddr = "192.168.112:8848"))
 @NacosPropertySource(dataId = "nacos-config-example.properties", autoRefreshed = true)
 public class NacosConfiguration {
 }

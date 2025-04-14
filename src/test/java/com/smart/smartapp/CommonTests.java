@@ -1,18 +1,20 @@
 package com.smart.smartapp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.StringUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -78,10 +80,10 @@ public class CommonTests {
         concurrentHashMap.put("tt", 123);
         concurrentHashMap.get("tt");
         concurrentHashMap.put("tt", 2222222);
-        Map<String,Object> hashtable=new Hashtable();
+        Map<String, Object> hashtable = new Hashtable();
         // hashtable get\put使用synchronized作用于整个方法确保多线程并发安全
         hashtable.get(123);
-        hashtable.put("333",333);
+        hashtable.put("333", 333);
 
     }
 
@@ -118,6 +120,90 @@ public class CommonTests {
         URL url = new URL(pic);
         String path = url.getPath();
         System.out.println(path);
+    }
+
+    @Test
+    public void testFile() {
+        String dir = "D:\\data\\images\\record\\ba\\20240710\\images\\waterLine\\F8956BDAB1D097B489FD1ABA169756BF";
+        String fileName = "20240710142636_F8956BDAB1D097B489FD1ABA169756BF_waterLine_origin.jpg";
+        File file = new File(dir);
+        if (file.exists()) {
+            System.out.println("dir 存在");
+        }
+        File file1 = new File(dir, fileName);
+        if (file1.exists()) {
+            System.out.println("file1 存在");
+        }
+    }
+
+    @Test
+    public void NetworkInterfaceCheck() {
+        String address = "https://www.baidu.com/smart-center/api/smart/center/v1/alarm/data";
+        try {
+            URL url = new URL(address);
+            String host = url.getHost();
+            InetAddress inetAddress = InetAddress.getByName(host);
+            if (inetAddress.isReachable(5000)) {
+                System.out.println("可达");
+            } else {
+                System.out.println("不可达");
+            }
+            int port = url.getPort();
+            try (Socket socket = new Socket(host, port)) {
+            }
+            System.out.println("接口可访问");
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    // 目录检索分析
+    @Test
+    public void testCatalog() throws IOException {
+        String dir = "D:\\Users\\zhizj\\Desktop\\天翼.txt";
+        String catalogFile = "D:\\Users\\zhizj\\Desktop\\目录设备.json";
+
+        File file = new File(dir);
+        if (file.exists()) {
+            System.out.println("dir 存在");
+        }
+        List<String> lines = Files.readAllLines(Paths.get(dir));
+        int i = 0;
+        Set<String> deviceList = new HashSet<>();
+        do {
+            if (lines.get(i).equals(" <SumNum>4146</SumNum>")) {
+                i = i + 3;
+                String deviceIdStr = lines.get(i);
+                String deviceId = deviceIdStr.substring(13, 33);
+                deviceList.add(deviceId);
+            } else {
+                i++;
+            }
+        } while (i < lines.size());
+        System.out.println("deviceList:");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> jsonArray = objectMapper.readValue(
+                new File(catalogFile), new TypeReference<List<Map<String, Object>>>() {
+                }
+        );
+        Set<String> notExists = new HashSet<>();
+        Set<String> exists = new HashSet<>();
+        jsonArray.forEach(e -> {
+            if (deviceList.contains(e.get("deviceID"))) {
+                exists.add((String) e.get("deviceID"));
+            } else {
+                notExists.add((String) e.get("deviceID"));
+            }
+        });
+
+        List<String> list = deviceList.stream().filter(e -> !exists.contains(e)).collect(Collectors.toList());
+        System.out.println("没有解析出来的设备：");
+        list.forEach(e -> System.out.println(e));
+
     }
 
 }

@@ -1,0 +1,11 @@
+# Application Context Initializers
+org.springframework.context.ApplicationContextInitializer=\
+com.smart.smartapp.test.MyApplicationContextInitializer
+
+# Application Listeners
+# org.springframework.context.ApplicationListener=\
+# com.smart.smartapp.test.MyApplicationListener
+
+# Error Reporters
+org.springframework.boot.SpringBootExceptionReporter=\
+com.smart.smartapp.test.MyExceptionReporter

@@ -20,7 +20,24 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 1000MB
-
+  kafka:
+    bootstrap-servers: 192.168.163.11:9091,192.168.163.11:9092
+    producer:
+      retries: 3
+      batch-size: 16384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: my-group
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # max-poll-records: 20000
+    # listener:
+      # concurrency: 3
+      # ack-mode: MANUAL
 server:
   port: 8085
 logging:
@@ -29,3 +46,6 @@ logging:
     com.smart.smartapp: debug
   file:
     path: ./logs
+
+
+

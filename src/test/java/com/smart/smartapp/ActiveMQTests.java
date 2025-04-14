@@ -1,6 +1,6 @@
 package com.smart.smartapp;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
+//import org.apache.activemq.ActiveMQConnectionFactory;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,7 +24,7 @@ import java.util.Set;
 @SpringBootTest
 public class ActiveMQTests {
 
-    @Test
+/*    @Test
     public void countForAllQueuesTest() {
         String brokerUrl = "tcp://192.168.163.11:61616"; // ActiveMQ Broker 的连接 URL
         String userName = "admin";
@@ -47,7 +47,7 @@ public class ActiveMQTests {
         } catch (JMSException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private static void getRemainingMessageCountForAllQueues(String brokerUrl) {
         try {

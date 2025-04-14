@@ -25,7 +25,7 @@ public class ThreadPoolTests {
         // 四种拒绝策略：1默认放弃且抛出异常
         // 调用者执行 new ThreadPoolExecutor.CallerRunsPolicy()
         // 直接放弃 ThreadPoolExecutor.DiscardPolicy
-        // 抛弃最新执行的任务，来执行当前的任务：threadPoolExecutor.DiscardOldestPolicy
+        // 抛弃最早未执行的任务，来执行当前的任务：threadPoolExecutor.DiscardOldestPolicy
         ExecutorService pool = new ThreadPoolExecutor(2, 4, 60, TimeUnit.SECONDS, queue, new CustomizableThreadFactory("work-pool"), new ThreadPoolExecutor.AbortPolicy());
 
         pool.execute(() -> {
