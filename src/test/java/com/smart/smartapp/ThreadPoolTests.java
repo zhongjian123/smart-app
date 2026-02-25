@@ -101,9 +101,5 @@ public class ThreadPoolTests {
 
     }
 
-    @Test
-    public void testGit(){
-        System.out.println("ttt");
-    }
 
 }
