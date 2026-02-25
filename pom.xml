@@ -72,10 +72,16 @@
             <version>2.3.23</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-all</artifactId>
-            <version>5.16.0</version> <!-- 请根据需要选择适当的版本号 -->
+            <version>5.16.0</version> &lt;!&ndash; 请根据需要选择适当的版本号 &ndash;&gt;
+        </dependency>-->
+
+        <!-- activemq与kafka存在版本冲突-->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
 
         <dependency>
@@ -112,6 +118,23 @@
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-spring-context</artifactId>
             <version>2.1.0-RC</version>
+        </dependency>
+
+        <!-- aop切面 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.13.0</version>
         </dependency>
 
     </dependencies>

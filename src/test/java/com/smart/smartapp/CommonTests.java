@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,6 +135,9 @@ public class CommonTests {
         if (file1.exists()) {
             System.out.println("file1 存在");
         }
+        ConcurrentHashMap<String, Object> map = new ConcurrentHashMap<>(5);
+        map.put("tet", 111);
+        map.get("test");
     }
 
     @Test
@@ -160,7 +164,7 @@ public class CommonTests {
     }
 
 
-    // 目录检索分析
+    // 目录检索分析、东莞
     @Test
     public void testCatalog() throws IOException {
         String dir = "D:\\Users\\zhizj\\Desktop\\天翼.txt";
@@ -204,6 +208,58 @@ public class CommonTests {
         System.out.println("没有解析出来的设备：");
         list.forEach(e -> System.out.println(e));
 
+    }
+
+
+    @Test
+    public void testCatalog2() throws IOException {
+        String catalogFile = "D:\\Projects\\work\\LinkCM\\temp.json";
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> jsonArray = objectMapper.readValue(
+                new File(catalogFile), new TypeReference<List<Map<String, Object>>>() {
+                }
+        );
+        Set<String> deviceList = new HashSet<>();
+        Set<String> catalogList = new HashSet<>();
+        jsonArray.forEach(e -> {
+            String deviceID = (String) e.get("deviceID");
+            String type = deviceID.substring(10, 13);
+
+            if (type.equals("131") || type.equals("132")) {
+                deviceList.add(deviceID);
+            } else {
+                catalogList.add(deviceID);
+            }
+        });
+
+        System.out.println("--");
+
+    }
+
+    @Test
+    public void testCopy() throws IOException {
+        Path bakPath = Paths.get("D:\\Users\\zhizj\\Desktop\\sdk\\bin-bak");
+        File bakFile = bakPath.toFile();
+        File[] bakFiles = bakFile.listFiles();
+        Set<String> bakFileNames = Arrays.stream(bakFiles).map(e -> e.getName()).collect(Collectors.toSet());
+
+
+        Path okPath = Paths.get("D:\\Users\\zhizj\\Desktop\\sdk\\bin-ok");
+        File okFile = okPath.toFile();
+        File[] files = okFile.listFiles();
+        for (File file : files) {
+            if (bakFileNames.contains(file.getName())) {
+                System.out.println(file.getName());
+            } else if (!file.getName().endsWith(".dll")) {
+                System.out.println("not dll=== " + file.getName());
+            } else if (file.getName().contains("opencv")) {
+                System.out.println("opencv=== " + file.getName());
+            } else {
+                File dep = Paths.get(file.getParentFile().getParentFile().toString(), "dependence-mini", file.getName()).toFile();
+                FileCopyUtils.copy(file, dep);
+            }
+        }
     }
 
 }
