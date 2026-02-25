@@ -112,7 +112,7 @@ public class ThreadPoolTests {
     }
 
     @Test
-    public void testT3(){
+    public void testT4(){
         System.out.println("yyyy");
     }
 
