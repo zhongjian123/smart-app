@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @description: 线程池    参考：https://blog.csdn.net/zzti_erlie/article/details/124059864
@@ -17,6 +18,8 @@ import java.util.concurrent.*;
 public class ThreadPoolTests {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ThreadPoolTests.class);
+
+    private ReentrantLock lock=new ReentrantLock();
 
     @Test
     public void testThread() throws InterruptedException {
@@ -55,6 +58,47 @@ public class ThreadPoolTests {
         }, 60, 60, TimeUnit.SECONDS);
 
         Thread.sleep(600000);
+    }
+
+    @Test
+    public void test() throws ExecutionException, InterruptedException {
+        MyThread myThread = new MyThread();
+
+        myThread.start();
+        LOGGER.info("ddddddd");
+
+        MyRunnable myRunnable = new MyRunnable();
+        Thread thread = new Thread(myRunnable);
+        thread.start();
+
+        MyCallable myCallable = new MyCallable();
+        FutureTask<String> futureTask = new FutureTask<>(myCallable);
+        Thread thread1 = new Thread(futureTask);
+        thread1.start();
+        String result = futureTask.get();
+        System.out.println("iii" + result);
+//        juc
+        ExecutorService pool = Executors.newFixedThreadPool(3);
+        pool.submit(() -> {
+            System.out.println(Thread.currentThread().getName());
+        });
+
+
+        ExecutorService service = new ThreadPoolExecutor(3, 5, 30, TimeUnit.SECONDS, new ArrayBlockingQueue(100), Executors.defaultThreadFactory(), new ThreadPoolExecutor.AbortPolicy());
+        service.execute(()->{
+            LOGGER.info("threadpoolexecutor");
+        });
+
+        if (lock.tryLock(10,TimeUnit.SECONDS)){
+            try {
+
+            }finally {
+                lock.unlock();
+            }
+        }else {
+
+        }
+
     }
 
 
